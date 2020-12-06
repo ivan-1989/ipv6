@@ -39,6 +39,7 @@ route -n add -inet6 default $IPV6_GW
 
 cat <<EOF> /etc/resolv.conf
 nameserver $DNS1
+
 EOF
 
 
@@ -48,6 +49,7 @@ server "$DNS_NAME" {
         listen on \$ext_addr port 80
         root "/htdocs/$DNS_NAME/"
 }
+
 EOF
 
 ### start service
