@@ -44,9 +44,6 @@ EOF
 
 cat <<EOF> $HTTPD_CONF
 ext_addr="$IPV6_ADDR"
-
-
-
 server "$DNS_NAME" {
         listen on \$ext_addr port 80
         root "/htdocs/$DNS_NAME/"
