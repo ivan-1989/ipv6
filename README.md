@@ -4,10 +4,11 @@
 
 
 
+DNS
 https://my.freenom.com/
 
+he.net
 
-h.1 he.net
 https://therandomsecurityguy.com/posts/ipv6-sage/
 
 https://samsclass.info/ipv6/proj/he-cert-win.html
