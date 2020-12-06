@@ -1,6 +1,6 @@
 # ipv6
 
-![alt text](https://github.com/ivam1989/ipv6/blob/master/ipv6.png?raw=true)
+![alt text](https://github.com/ivan-1989/ipv6/blob/master/ipv6.png?raw=true)
 
 
 https://therandomsecurityguy.com/posts/ipv6-sage/
