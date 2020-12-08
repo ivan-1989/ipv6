@@ -5,12 +5,14 @@ export IPV4_ADDR="195.144.243.43"
 export IPV4_PREF="24"
 export IPV6_PREF="128"
 export IPV4_GW="195.144.243.254"
-export DNS_NAME="test.freeunixlab123.tk"
+export WEB_DNS_NAME="test"
+export DOMAIN_SUF="freeunixlab123.tk"
 export HE_TEST_FILE="a86vjwu7a.txt"
 export IPV6_IFACE="gif0"
 export IPV4_IFACE="em1"
 export WWW_DIR="/var/www/htdocs"
 export HTTPD_CONF="/etc/httpd.conf"
+export SMTPD_CONF="/etc/mail/smtpd.conf"
 export DNS1="1.1.1.1"
 
 
@@ -20,14 +22,14 @@ ifconfig $IPV6_IFACE destroy
 ifconfig $IPV4_IFACE delete
 route -n delete -inet default
 route -n delete -inet6 default
-rm -fr $WWW_DIR/$DNS_NAME
+rm -fr $WWW_DIR/$WEB_DNS_NAME\.$DOMAIN_SUF
 pkill httpd
 
 
 ### create staff
 
-mkdir $WWW_DIR/$DNS_NAME/
-touch $WWW_DIR/$DNS_NAME/$HE_TEST_FILE
+mkdir $WWW_DIR/$WEB_DNS_NAME\.$DOMAIN_SUF/
+touch $WWW_DIR/$WEB_DNS_NAME\.$DOMAIN_SUF/$HE_TEST_FILE
 
 ifconfig $IPV4_IFACE $IPV4_ADDR/$IPV4_PREF
 route -n add -inet default $IPV4_GW
@@ -36,25 +38,34 @@ ifconfig $IPV6_IFACE tunnel $IPV4_ADDR $IPV4_PEER
 ifconfig $IPV6_IFACE inet6 alias $IPV6_ADDR $IPV6_GW prefixlen $IPV6_PREF
 route -n add -inet6 default $IPV6_GW
 
+### configure services
 
 cat <<EOF> /etc/resolv.conf
 nameserver $DNS1
-
 EOF
 
 
 cat <<EOF> $HTTPD_CONF
 ext_addr="$IPV6_ADDR"
-server "$DNS_NAME" {
-        listen on \$ext_addr port 80
-        root "/htdocs/$DNS_NAME/"
-}
 
+
+
+server "$WEB_DNS_NAME\.$DOMAIN_SUF" {
+        listen on \$ext_addr port 80
+        root "/htdocs/$WEB_DNS_NAME\.$DOMAIN_SUF/"
+}
 EOF
 
-### start service
+cat <<EOF> $SMTPD_CONF
+listen on $IPV6_IFACE
+
+table aliases db:/etc/mail/aliases.db
+
+accept from any for domain "$DOMAIN_SUF" alias <aliases> deliver to mbox
+EOF
+
+### start services
 
 sleep 2
 rcctl -f start httpd
-
-
+rcctl -f restart smtpd
