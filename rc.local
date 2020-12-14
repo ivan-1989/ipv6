@@ -5,8 +5,8 @@ export IPV4_ADDR="195.144.243.43"
 export IPV4_PREF="24"
 export IPV6_PREF="128"
 export IPV4_GW="195.144.243.254"
-export WEB_DNS_NAME="test"
-export DOMAIN_SUF="freeunixlab123.tk"
+export WEB_DNS_NAME="www"
+export DOMAIN_SUF="fdiuaahu.gq"
 export HE_TEST_FILE="a86vjwu7a.txt"
 export IPV6_IFACE="gif0"
 export IPV4_IFACE="em1"
@@ -50,9 +50,9 @@ ext_addr="$IPV6_ADDR"
 
 
 
-server "$WEB_DNS_NAME\.$DOMAIN_SUF" {
+server "$WEB_DNS_NAME.$DOMAIN_SUF" {
         listen on \$ext_addr port 80
-        root "/htdocs/$WEB_DNS_NAME\.$DOMAIN_SUF/"
+        root "/htdocs/$WEB_DNS_NAME.$DOMAIN_SUF/"
 }
 EOF
 
